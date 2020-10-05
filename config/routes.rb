@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :pledges
   devise_for :users
   resources :events
   get "index" => "events#index"
