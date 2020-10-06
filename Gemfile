@@ -31,6 +31,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Use Devise for user authentication
 gem 'devise'
 
+# Use stripe to save user card info for later payments
+gem 'stripe'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

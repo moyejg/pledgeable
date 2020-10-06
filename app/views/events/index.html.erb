@@ -9,7 +9,7 @@
         <p><%= event.description %></p>
         <p><%= event.category %></p>
         <%= link_to 'Show', event %>
-        <%= link_to 'Edit', edit_event_path(event) %>
+        <%= link_to 'Mark as completed', edit_event_path(event) %>
         <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %>
         </tr>
         <%= link_to  "Pledge", new_pledge_path, event: event %>
@@ -25,5 +25,7 @@
   <% end %>
 
 <br>
+
+<%= button_to 'Add card info', checkout_create_path, method: :post, params: {id: current_user.id}, remote: true %>
 
 <%= link_to 'New Event', new_event_path %>

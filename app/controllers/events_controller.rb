@@ -50,6 +50,33 @@ class EventsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
+    end    
+
+    if @event.event_completed_on_changed?
+      @event.pledges.each do |pledge|
+
+        product = Stripe::Product.create({
+          name: pledge.user.email + 'donation'
+        })
+
+        price = Stripe::Price.create({
+          product: product,
+          unit_amount: ((@event.amount * pledge.amount)*100).to_i,
+          currency: 'usd'
+        })
+
+        Stripe::InvoiceItem.create({
+          customer: pledge.user.stripe_customer_id,
+          price: price
+        })
+
+        invoice = Stripe::Invoice.create({
+          customer: pledge.user.stripe_customer_id,
+          collection_method: 'charge_automatically',
+          auto_advance: true
+        })
+
+      end
     end
   end
 

@@ -9,24 +9,39 @@
         <% end %>
       </ul>
     </div>
+  <% end %>    
+
+  <% if action_name == "new" %>
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= form.label :description %>
+      <%= form.text_area :description %>
+    </div>
+
+    <div class="field">
+      <%= form.label :category %>
+      <%= form.select :category, Event::CATEGORY_OPTIONS %>
+    </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
+  <% if action_name == "edit" %>
+    <div class="field">
+      <%= form.label :amount %>
+      <%= form.text_field :amount %>
+    </div>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :category %>
-    <%= form.select :category, Event::CATEGORY_OPTIONS %>
-  </div>
+    <div class="field">
+      <%= form.label :event_completed_on %>
+      <%= form.datetime_select :event_completed_on %>
+    </div>
+  <% end %>
 
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
+
