@@ -42,42 +42,17 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
+    
     respond_to do |format|
       if @event.update(event_params)
+        stripe_auto_pay
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
-    end    
-
-    if @event.event_completed_on_changed?
-      @event.pledges.each do |pledge|
-
-        product = Stripe::Product.create({
-          name: pledge.user.email + 'donation'
-        })
-
-        price = Stripe::Price.create({
-          product: product,
-          unit_amount: ((@event.amount * pledge.amount)*100).to_i,
-          currency: 'usd'
-        })
-
-        Stripe::InvoiceItem.create({
-          customer: pledge.user.stripe_customer_id,
-          price: price
-        })
-
-        invoice = Stripe::Invoice.create({
-          customer: pledge.user.stripe_customer_id,
-          collection_method: 'charge_automatically',
-          auto_advance: true
-        })
-
-      end
-    end
+    end        
   end
 
   # DELETE /events/1
@@ -99,5 +74,33 @@ class EventsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def event_params
       params.require(:event).permit(:name, :description, :category, :amount, :event_completed_on, :user_id)
+    end
+
+    def stripe_auto_pay
+        @event.pledges.each do |pledge|
+  
+          product = Stripe::Product.create({
+            name: pledge.user.email + 'donation' + pledge.id.to_s
+          })
+  
+          price = Stripe::Price.create({
+            product: product,
+            unit_amount: ((@event.amount * pledge.amount)*100).to_i,
+            currency: 'usd'
+          })
+  
+          Stripe::InvoiceItem.create({
+            customer: pledge.user.stripe_customer_id,
+            price: price
+          })
+  
+          invoice = Stripe::Invoice.create({
+            customer: pledge.user.stripe_customer_id,
+            collection_method: 'charge_automatically',
+            auto_advance: true
+          })
+  
+        end
+
     end
 end

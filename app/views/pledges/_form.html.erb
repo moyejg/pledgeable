@@ -21,6 +21,8 @@
     <%= form.text_field :max_amount %>
   </div>
 
+  <%= form.hidden_field :event_id, value: @event.id %>
+
   <div class="actions">
     <%= form.submit %>
   </div>

@@ -11,8 +11,7 @@
         <%= link_to 'Show', event %>
         <%= link_to 'Mark as completed', edit_event_path(event) %>
         <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </tr>
-        <%= link_to  "Pledge", new_pledge_path, event: event %>
+        <%= link_to  "Pledge", new_pledge_path(id: event.id) %>
          <% event.pledges.each do |pledge| %>
           <div class="card">
             <div class="card-body">
@@ -26,6 +25,12 @@
 
 <br>
 
-<%= button_to 'Add card info', checkout_create_path, method: :post, params: {id: current_user.id}, remote: true %>
+<% if user_signed_in? %>
+   <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+<% end %>
+
+<% if user_signed_in? %>
+  <%= button_to 'Add card info', checkout_create_path, method: :post, params: {id: current_user.id}, remote: true %>
+<% end %>
 
 <%= link_to 'New Event', new_event_path %>

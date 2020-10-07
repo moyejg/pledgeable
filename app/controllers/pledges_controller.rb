@@ -15,6 +15,7 @@ class PledgesController < ApplicationController
   # GET /pledges/new
   def new
     @pledge = Pledge.new
+    @event = Event.find(params[:id])
   end
 
   # GET /pledges/1/edit
@@ -24,10 +25,8 @@ class PledgesController < ApplicationController
   # POST /pledges
   # POST /pledges.json
   def create
-    @pledge = Pledge.new(pledge_params)
+    @pledge = Pledge.new(pledge_params)   
     @pledge.user_id = current_user.id
-    @event = Event.find_by(params[:event])
-    @pledge.event_id = @event.id
 
     respond_to do |format|
       if @pledge.save
