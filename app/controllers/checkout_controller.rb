@@ -26,8 +26,17 @@ class CheckoutController < ApplicationController
   def success
     @session = Stripe::Checkout::Session.retrieve(params[:session_id])
     @setup_intent = Stripe::SetupIntent.retrieve(@session.setup_intent)
+    # get payment_method from setup_intent and attach to customer
+    payment_method = @setup_intent.payment_method
+    customer = @session.customer
+
+    Stripe::PaymentMethod.attach(
+      payment_method,
+      customer: customer
+      )
+
     # get customer_id from session and attach to user in rails
-    current_user.update(stripe_customer_id: @session.customer)
+    current_user.update(stripe_customer_id: customer)
   end
 
   def cancel

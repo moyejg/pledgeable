@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :charities, path: 'c', controllers: {
+    sessions: 'charities/sessions'}
   resources :pledges
-  devise_for :users
+  devise_for :users, path: 'u', controllers: {
+    sessions: 'users/sessions'}
   resources :events
   get "index" => "events#index"
   root "events#index"

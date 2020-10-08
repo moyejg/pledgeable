@@ -1,6 +1,7 @@
 class Event < ApplicationRecord
   belongs_to :user
   has_many :pledges
+  has_one :charity
 
   validates :category, inclusion: { in: %w[run/walk bike] }
 
