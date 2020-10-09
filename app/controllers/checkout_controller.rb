@@ -26,7 +26,7 @@ class CheckoutController < ApplicationController
   def success
     @session = Stripe::Checkout::Session.retrieve(params[:session_id])
     @setup_intent = Stripe::SetupIntent.retrieve(@session.setup_intent)
-    # get payment_method from setup_intent and attach to customer
+    # get payment_method from setup_intent and attach to customer then update customer to set as default payment method for invoices
     payment_method = @setup_intent.payment_method
     customer = @session.customer
 
@@ -34,6 +34,13 @@ class CheckoutController < ApplicationController
       payment_method,
       customer: customer
       )
+    
+    Stripe::Customer.update(
+      customer,
+      invoice_settings: {
+        default_payment_method: payment_method
+      }
+    )
 
     # get customer_id from session and attach to user in rails
     current_user.update(stripe_customer_id: customer)
