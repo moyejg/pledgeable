@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :charities, path: 'c', controllers: {
-    sessions: 'charities/sessions'}
-  resources :pledges
-  devise_for :users, path: 'u', controllers: {
-    sessions: 'users/sessions'}
-  resources :events
-  get "index" => "events#index"
-  root "events#index"
+  get 'home' => 'pledgeable#home'
+  root 'pledgeable#home'
+  
+      devise_for :charities, path: 'c', controllers: {
+        sessions: 'charities/sessions'}
+      resources :pledges
+      devise_for :users, path: 'u', controllers: {
+        sessions: 'users/sessions'}
+      resources :events
 
   # Using checkout for saving users cards for now despite them not actually 'checking out'
   scope '/checkout' do

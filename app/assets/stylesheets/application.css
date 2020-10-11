@@ -14,3 +14,12 @@
  *= require_tree .
  *= require_self
  */
+
+
+ body {
+  background-image: url('IMG_6773.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+ }
+ 

@@ -1,0 +1,31 @@
+// Place all the styles related to the Pledgeable controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+* {
+  font-family: 'Abril Fatface', cursive;
+}
+
+h1 {
+  color: black;
+  font-weight: bolder;
+}
+
+p {
+  color: black;
+  font-weight: bolder;
+}
+
+@media only screen 
+  and (min-device-width: 374px) 
+  and (max-device-width: 812px) {
+
+    h1 {
+      font-size: 7vh !important;
+    }
+
+    p {
+      font-size: 3vh !important;
+    }
+
+}
