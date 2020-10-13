@@ -4,17 +4,11 @@
 
 * {
   font-family: 'Abril Fatface', cursive;
-}
-
-h1 {
   color: black;
   font-weight: bolder;
 }
 
-p {
-  color: black;
-  font-weight: bolder;
-}
+
 
 @media only screen 
   and (min-device-width: 374px) 
@@ -27,5 +21,9 @@ p {
     p {
       font-size: 3vh !important;
     }
+
+   .btn {
+     transform: scale(2);
+   }
 
 }

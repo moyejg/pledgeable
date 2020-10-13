@@ -1,7 +1,9 @@
-<div class="row pt-5">
-  <div class="col-sm">
-    <p class="text-center display-6">Welcome to</p>
-    <h1 class="text-center display-1">Pledgeable</h1>
+<div class="row pt-5 pb-5">
+  <div class="col-sm-6 offset-sm-3">
+    <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-dark btn-lg btn-block" %>
   </div>
 </div>
+
+<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+
 
