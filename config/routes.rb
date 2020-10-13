@@ -3,10 +3,12 @@ Rails.application.routes.draw do
   root 'pledgeable#home'
   
       devise_for :charities, path: 'c', controllers: {
-        sessions: 'charities/sessions'}
+        sessions: 'charities/sessions',
+        registrations: 'charities/registrations'}
       resources :pledges
       devise_for :users, path: 'u', controllers: {
-        sessions: 'users/sessions'}
+        sessions: 'users/sessions',
+        registrations: 'users/registrations'}
       resources :events
 
   # Using checkout for saving users cards for now despite them not actually 'checking out'
