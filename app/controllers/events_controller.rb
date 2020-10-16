@@ -11,6 +11,11 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    pledge_amount_arr = []
+    @event.pledges.each do |pledge|
+      pledge_amount_arr.push(pledge.amount)
+    end
+    @total_pledge_amount = pledge_amount_arr.sum
   end
 
   # GET /events/new
@@ -30,7 +35,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -60,7 +65,7 @@ class EventsController < ApplicationController
   def destroy
     @event.destroy
     respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
+      format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end
@@ -82,12 +87,21 @@ class EventsController < ApplicationController
           product = Stripe::Product.create({
             name: pledge.user.email + 'donation' + pledge.id.to_s
           })
-  
-          price = Stripe::Price.create({
+          
+          if pledge.max_amount < (@event.amount * pledge.amount)
+            price = Stripe::Price.create({
             product: product,
-            unit_amount: ((@event.amount * pledge.amount)*100).to_i,
+            unit_amount: (pledge.max_amount*100).to_i,
             currency: 'usd'
           })
+          else
+            price = Stripe::Price.create({
+              product: product,
+              unit_amount: ((@event.amount * pledge.amount)*100).to_i,
+              currency: 'usd'
+            })
+          end
+
   
           Stripe::InvoiceItem.create({
             customer: pledge.user.stripe_customer_id,

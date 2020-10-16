@@ -1,47 +1,51 @@
-<%= form_with(model: event, local: true) do |form| %>
-  <% if event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+<div class="row pt-5 pb-5">
+  <div class="col-sm-8 offset-sm-2">
 
-      <ul>
-        <% event.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>    
+    <%= form_with(model: event, local: true) do |form| %>
+      <% if event.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
 
-  <% if action_name == "new" %>
-    <div class="field">
-      <%= form.label :name %>
-      <%= form.text_field :name %>
-    </div>
+          <ul>
+            <% event.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>    
 
-    <div class="field">
-      <%= form.label :description %>
-      <%= form.text_area :description %>
-    </div>
+      <% if action_name == "new" %>
+        <div class="form-group pt-2 pb-2">
+          <%= form.text_field :name, placeholder: "Name", class: "form-control form-control-lg" %>
+        </div>
 
-    <div class="field">
-      <%= form.label :category %>
-      <%= form.select :category, Event::CATEGORY_OPTIONS %>
-    </div>
-  <% end %>
+        <div class="form-group pt-2 pb-2">
+          
+          <%= form.text_area :description, placeholder: "Describe your event", class: "form-control form-control-lg", rows: "5" %>
+        </div>
 
-  <% if action_name == "edit" %>
-    <div class="field">
-      <%= form.label :amount %>
-      <%= form.text_field :amount %>
-    </div>
+        
+    
+        <%= form.select :category, Event::CATEGORY_OPTIONS, class: "form-select form-select-lg" %>
+      
+      <% end %>
 
-    <div class="field">
-      <%= form.label :event_completed_on %>
-      <%= form.datetime_select :event_completed_on %>
-    </div>
-  <% end %>
+      <% if action_name == "edit" %>
+        <div class="field">
+          <%= form.label :amount %>
+          <%= form.text_field :amount %>
+        </div>
 
-  <div class="actions">
-    <%= form.submit %>
+        <div class="field">
+          <%= form.label :event_completed_on %>
+          <%= form.datetime_select :event_completed_on %>
+        </div>
+      <% end %>
+
+      <div class="actions pt-5 text-center">
+        <%= form.submit %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
 

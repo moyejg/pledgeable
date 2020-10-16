@@ -1,29 +1,40 @@
-<%= form_with(model: pledge, local: true) do |form| %>
-  <% if pledge.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(pledge.errors.count, "error") %> prohibited this pledge from being saved:</h2>
+<div class="row pt-3 pb-5">
+  <div class="col-sm-8 offset-sm-2">
 
-      <ul>
-        <% pledge.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+    <%= form_with(model: pledge, local: true) do |form| %>
+      <% if pledge.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(pledge.errors.count, "error") %> prohibited this pledge from being saved:</h2>
+
+          <ul>
+            <% pledge.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="text-center">
+        <h3>for</h3>
+        <h3><%= @event.name %></h3>
+        <h3>by:</h3>
+        <h3><%= @event.user.username %></h3>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :amount %>
-    <%= form.text_field :amount %>
+      <div class="form-group pt-5 pb-5">
+        <%= form.text_field :amount, placeholder: "Pledge Amount", class: "form-control form-control-lg" %>
+      </div>
+
+      <div class="form-group pb-5">
+        <%= form.text_field :max_amount, placeholder: "Maximum Donation Amount", class: "form-control form-control-lg"%>
+      </div>
+
+      <%= form.hidden_field :event_id, value: @event.id %>
+
+      <div class="actions text-center">
+        <%= form.submit %>
+      </div>
+    <% end %>
+
   </div>
-
-  <div class="field">
-    <%= form.label :max_amount %>
-    <%= form.text_field :max_amount %>
-  </div>
-
-  <%= form.hidden_field :event_id, value: @event.id %>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

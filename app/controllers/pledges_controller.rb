@@ -27,10 +27,11 @@ class PledgesController < ApplicationController
   def create
     @pledge = Pledge.new(pledge_params)   
     @pledge.user_id = current_user.id
+    @event = Event.find_by(params[:id])
 
     respond_to do |format|
       if @pledge.save
-        format.html { redirect_to @pledge, notice: 'Pledge was successfully created.' }
+        format.html { redirect_to @event, notice: 'Pledge was successfully created.' }
         format.json { render :show, status: :created, location: @pledge }
       else
         format.html { render :new }
@@ -58,7 +59,7 @@ class PledgesController < ApplicationController
   def destroy
     @pledge.destroy
     respond_to do |format|
-      format.html { redirect_to pledges_url, notice: 'Pledge was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Pledge was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -8,6 +8,22 @@
   font-weight: bolder;
 }
 
+h1 {
+  text-shadow: 2px 2px gray;
+}
+
+h2 {
+  text-align: center;
+}
+
+.card {
+  opacity: .75;
+}
+
+.card-header {
+  text-align: center;
+}
+
 
 
 @media only screen 
@@ -15,7 +31,12 @@
   and (max-device-width: 812px) {
 
     h1 {
-      font-size: 7vh !important;
+      font-size: 8vh !important;
+    }
+
+    h2 {
+      font-size: 5vh;
+      text-align: center;
     }
 
     p {

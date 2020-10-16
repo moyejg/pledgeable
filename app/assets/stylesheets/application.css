@@ -22,4 +22,12 @@
   background-attachment: fixed;
   background-size: cover;
  }
+
+ ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+
  
