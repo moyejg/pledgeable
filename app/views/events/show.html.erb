@@ -1,61 +1,63 @@
 <div class="row pt-3">
-      <div class="col-sm">
-        <div class="card">
-            <div class="card-header">
-              <h3><%= @event.name %></h3>
-              <h4>Event created by: <%= @event.user.username %></h4>
-              <h4>Type: <%= @event.category %></h4>
+  <div class="col-sm">
+    <div class="card">
+        <div class="card-header">
+          <h3><%= @event.name %></h3>
+          <h4>Event created by: <%= @event.user.username %></h4>
+          <h4>Type: <%= @event.category %></h4>
+        </div>
+      <div class="card-body">
+        <h4><%= @event.description %></h4> 
+      </div>
+      <div class="card-footer">
+        <div class="text-center">
+          <% if user_signed_in? && current_user.stripe_customer_id.present? %>
+            <%= link_to  "Pledge", new_pledge_path(id: @event.id), class: "btn btn-success btn-sm mt-3 mb-3" %>
+          <% end %>
+        </div>  
+      </div>                  
+    </div>
+  </div>
+</div>  
+<div class="row pt-5">
+  <div class="col-sm text-center">
+    <div class="card">
+      <div class="card-body">
+        <h4>Total pledged per mile: <%= number_to_currency(@total_pledge_amount) %></h4>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row pt-5">
+  <div class="col-sm-8">
+    <% @event.pledges.each do |pledge| %>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-7">
+            <% if user_signed_in? && current_user.id == pledge.user.id %>
+              <h4> You have pledged: <%= number_to_currency(pledge.amount) %> </h4>
+            <% else %>
+              <h4><%= pledge.user.username %> has pledged: <%= number_to_currency(pledge.amount) %> </h4>  
+            <% end %>
             </div>
-          <div class="card-body">
-            <h4><%= @event.description %></h4> 
-          </div>
-          <div class="card-footer">
-            <div class="text-center">
-              <% if user_signed_in? && current_user.stripe_customer_id.present? %>
-                <%= link_to  "Pledge", new_pledge_path(id: @event.id), class: "btn btn-success btn-sm mt-3 mb-3" %>
+            <div class="col-sm-5 text-center pt-3">
+              <% if user_signed_in? && current_user.id == pledge.user.id %>
+                <%= link_to "Remove", pledge, method: :delete, data: { confirm: 'Are you sure you want to remove your pledge?'}, class: 'btn btn-danger btn-sm'%>       
               <% end %>
-            </div>  
-          </div>                  
-        </div>
-      </div>
-    </div>  
-    <div class="row pt-5">
-      <div class="col-sm text-center">
-        <div class="card">
-          <div class="card-body">
-            <h4>Total pledged per mile: <%= number_to_currency(@total_pledge_amount) %></h4>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row pt-5">
-      <div class="col-sm-8">
-        <% @event.pledges.each do |pledge| %>
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-7">
-                <% if user_signed_in? && current_user.id == pledge.user.id %>
-                  <h4> You have pledged: <%= number_to_currency(pledge.amount) %> </h4>
-                <% else %>
-                  <h4><%= pledge.user.username %> has pledged: <%= number_to_currency(pledge.amount) %> </h4>  
-                <% end %>
-                </div>
-                <div class="col-sm-5 text-center pt-3">
-                  <% if user_signed_in? && current_user.id == pledge.user.id %>
-                    <%= link_to "Remove", pledge, method: :delete, data: { confirm: 'Are you sure you want to remove your pledge?'}, class: 'btn btn-danger btn-sm'%>       
-                  <% end %>
-                </div>
-              </div>
             </div>
           </div>
-        <% end %>
+        </div>
       </div>
-    </div>
+    <% end %>
+  </div>
+</div>
 
 <ul class="text-center">     
   <% if user_signed_in? && current_user.id == @event.user.id %>
-    <li class="mt-5 mb-5"><%= link_to 'Mark as completed', edit_event_path(@event), class: "btn btn-dark" %></li>
+    <% if @event.event_completed_on.blank? %>
+      <li class="mt-5 mb-5"><%= link_to 'Mark as completed', edit_event_path(@event), class: "btn btn-dark" %></li>
+    <% end %>
     <li class="mt-5 mb-5"><%= link_to 'Delete Event', @event, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></li>
   <% end %>    
   <li class="mt-5 mb-5"><%= link_to 'Home', root_path, class: "btn btn-dark" %></li>

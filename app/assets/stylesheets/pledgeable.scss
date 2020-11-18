@@ -4,7 +4,7 @@
 
 * {
   font-family: 'Abril Fatface', cursive;
-  color: black;
+  color: black ;
   font-weight: bolder;
 }
 
@@ -14,10 +14,6 @@ h1 {
 
 h2 {
   text-align: center;
-}
-
-.card {
-  opacity: .75;
 }
 
 .card-header {
@@ -44,7 +40,7 @@ h2 {
     }
 
    .btn {
-     transform: scale(2);
+     transform: scale(1.3);
    }
 
 }

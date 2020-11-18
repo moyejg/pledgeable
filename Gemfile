@@ -34,6 +34,12 @@ gem 'devise'
 # Use stripe to save user card info for later payments
 gem 'stripe'
 
+# Use Rails Admin for an app administrator dashboard
+gem 'rails_admin', '~> 2.0'
+
+# Use cancancan for restricting access and granting permissions for specific roles
+gem 'cancancan'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

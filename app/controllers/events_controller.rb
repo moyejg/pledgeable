@@ -50,7 +50,6 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.update(event_params)
-        stripe_auto_pay
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -78,43 +77,6 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:name, :description, :category, :amount, :event_completed_on, :user_id)
-    end
-
-    def stripe_auto_pay
-        @event.pledges.each do |pledge|
-  
-          product = Stripe::Product.create({
-            name: pledge.user.email + 'donation' + pledge.id.to_s
-          })
-          
-          if pledge.max_amount < (@event.amount * pledge.amount)
-            price = Stripe::Price.create({
-            product: product,
-            unit_amount: (pledge.max_amount*100).to_i,
-            currency: 'usd'
-          })
-          else
-            price = Stripe::Price.create({
-              product: product,
-              unit_amount: ((@event.amount * pledge.amount)*100).to_i,
-              currency: 'usd'
-            })
-          end
-
-  
-          Stripe::InvoiceItem.create({
-            customer: pledge.user.stripe_customer_id,
-            price: price
-          })
-  
-          invoice = Stripe::Invoice.create({
-            customer: pledge.user.stripe_customer_id,
-            collection_method: 'charge_automatically',
-            auto_advance: true
-          })
-  
-        end
-
+      params.require(:event).permit(:name, :description, :category, :amount, :event_completed_on, :user_id, :charity_id)
     end
 end

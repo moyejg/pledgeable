@@ -4,5 +4,5 @@ class Charity < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :event, optional: true
+  has_many :events
 end
