@@ -1,5 +1,5 @@
 class Event < ApplicationRecord
-  after_save :stripe_auto_pay, if: :saved_change_to_event_completed_on? 
+  after_save :stripe_auto_transfer, if: :saved_change_to_event_completed_on? 
 
   belongs_to :user
   belongs_to :charity
@@ -14,7 +14,7 @@ class Event < ApplicationRecord
 
   private
 
-    def stripe_auto_pay    
+    def stripe_auto_transfer    
       self.pledges.each do |pledge|
 
         product = Stripe::Product.create({
@@ -43,15 +43,15 @@ class Event < ApplicationRecord
         invoice = Stripe::Invoice.create({
           customer: pledge.user.stripe_customer_id,
           collection_method: 'charge_automatically',
-          auto_advance: true
+          auto_advance: true,
+          transfer_data: {
+            destination: pledge.event.charity.stripe_account_id,
+            amount: ( price.unit_amount * 0.95 ).to_i
+          }
         })
 
       end
 
-    end
-
-    def charity_pay_out
-   
     end
 
   end

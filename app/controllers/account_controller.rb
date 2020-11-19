@@ -22,6 +22,11 @@ class AccountController < ApplicationController
     redirect_to @account_links.url
   end
 
+  def login
+    @login_link = Stripe::Account.create_login_link(current_charity.stripe_account_id)
+    redirect_to @login_link.url
+  end
+
   def reauth
 
   end

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   scope '/account' do
     post 'create', to: 'account#create', as: 'account_create'
+    post 'login', to: 'account#login', as: 'account_login'
     get 'reauth', to: 'pledgeable#home', as: 'account_reauth'
     get 'return', to: 'pledgeable#home', as: 'account_return'
 

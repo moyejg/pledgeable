@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_18_153538) do
+ActiveRecord::Schema.define(version: 2020_11_18_170524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,19 @@ ActiveRecord::Schema.define(version: 2020_11_18_153538) do
     t.boolean "user_role", default: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "webhook_events", force: :cascade do |t|
+    t.string "source"
+    t.string "external_id"
+    t.json "data"
+    t.integer "state", default: 0
+    t.text "processing_errors"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["external_id"], name: "index_webhook_events_on_external_id"
+    t.index ["source", "external_id"], name: "index_webhook_events_on_source_and_external_id"
+    t.index ["source"], name: "index_webhook_events_on_source"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

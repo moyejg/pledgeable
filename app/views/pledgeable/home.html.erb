@@ -10,8 +10,11 @@
       <%= link_to "CHARITIES", new_charity_session_path, class: "btn btn-dark btn-lg btn-block pt-5 pb-5 pl-5 pr-5" %>
     </div>
   </div>
-<% elsif charity_signed_in? %> 
+<% elsif charity_signed_in? && current_charity.stripe_account_id.blank? %> 
   <%= link_to 'Connect with Stripe', account_create_path, method: :post, class: "btn btn-dark btn-lg btn-block mt-5" %>
+  <%= link_to "Sign out", destroy_charity_session_path, method: :delete %>
+<% elsif charity_signed_in? %>
+  <%= link_to 'View Stripe Account', account_login_path, method: :post, remote: true, class: "btn btn-dark btn-lg btn-block mt-5" %>
   <%= link_to "Sign out", destroy_charity_session_path, method: :delete %>
 <% else user_signed_in? %> 
   <% if current_user.stripe_customer_id.blank? %>
