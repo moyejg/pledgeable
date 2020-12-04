@@ -2,15 +2,18 @@ class Event < ApplicationRecord
   after_save :stripe_auto_transfer, if: :saved_change_to_event_completed_on? 
 
   belongs_to :user
-  belongs_to :charity
+  belongs_to :charity, optional: true
+  belongs_to :event_category, optional: true
   has_many :pledges
 
-  validates :category, inclusion: { in: %w[run/walk bike] }
-
-  CATEGORY_OPTIONS = [
-    %w[run/walk run/walk],
-    %w[bike bike],
-  ]
+  def total_pledge_amount
+    pledge_amount_arr = []
+    self.pledges.each do |pledge|
+      pledge_amount_arr.push(pledge.amount)
+    end
+    amount = pledge_amount_arr.sum
+    return amount
+  end
 
   private
 

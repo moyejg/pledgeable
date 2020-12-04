@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  get 'home' => 'pledgeable#home'
   root 'pledgeable#home'
+  get 'home' => 'pledgeable#home'
+  get 'charities' => 'pledgeable#charities'
+  get 'mark_completed' => 'events#mark_completed'
+  get 'user_profile' => 'pledgeable#user_profile'
   post '/webhook_events/:source', to: 'webhook_events#create'
   
       devise_for :charities, path: 'c', controllers: {

@@ -3,13 +3,9 @@
 one:
   name: MyString
   description: MyText
-  amount: 9.99
-  event_completed_on: 2020-10-05 11:13:23
-  user_id: 1
+  unit_of_measurement: MyString
 
 two:
   name: MyString
   description: MyText
-  amount: 9.99
-  event_completed_on: 2020-10-05 11:13:23
-  user_id: 1
+  unit_of_measurement: MyString

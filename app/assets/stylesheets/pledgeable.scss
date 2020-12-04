@@ -3,16 +3,21 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 * {
-  font-family: 'Abril Fatface', cursive;
+  font-family: 'Nunito', sans-serif;
   color: black ;
-  font-weight: bolder;
 }
 
 h1 {
+  font-weight: bolder;
   text-shadow: 2px 2px gray;
 }
 
 h2 {
+  text-align: center;
+}
+
+p {
+  font-size: 3vh !important;
   text-align: center;
 }
 
@@ -36,7 +41,7 @@ h2 {
     }
 
     p {
-      font-size: 3vh !important;
+      font-size: 2vh !important;
     }
 
    .btn {

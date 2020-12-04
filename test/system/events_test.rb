@@ -15,7 +15,6 @@ class EventsTest < ApplicationSystemTestCase
     click_on "New Event"
 
     fill_in "Amount", with: @event.amount
-    fill_in "Category", with: @event.category
     fill_in "Description", with: @event.description
     fill_in "Event completed on", with: @event.event_completed_on
     fill_in "Name", with: @event.name
@@ -31,7 +30,6 @@ class EventsTest < ApplicationSystemTestCase
     click_on "Edit", match: :first
 
     fill_in "Amount", with: @event.amount
-    fill_in "Category", with: @event.category
     fill_in "Description", with: @event.description
     fill_in "Event completed on", with: @event.event_completed_on
     fill_in "Name", with: @event.name

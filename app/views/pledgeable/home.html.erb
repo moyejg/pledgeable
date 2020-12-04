@@ -1,21 +1,35 @@
+<p>Pledgeable is a web app that gives you the power to raise money for charity by creating and completing events.  Share your event with others who can pledge to your cause.</p>
+
 <% if !user_signed_in? && !charity_signed_in? %>
   <div class="row pt-5 pb-5">
     <div class="col-sm pt-5 pb-5">
-      <%= link_to "USERS", new_user_session_path, class: "btn btn-dark btn-lg btn-block pt-5 pb-5 pl-5 pr-5" %>
+      <div class="d-grid gap-2">
+        <%= link_to "USER LOG IN", new_user_session_path, class: "btn btn-dark btn-lg pt-5 pb-5 pl-5 pr-5" %>
+      </div>
     </div>
   </div>
 
   <div class="row pt-5 pb-5">
     <div class="col-sm pt-5 pb-5">
-      <%= link_to "CHARITIES", new_charity_session_path, class: "btn btn-dark btn-lg btn-block pt-5 pb-5 pl-5 pr-5" %>
+      <div class="d-grid gap-2">
+        <%= link_to "CHARITY LOG IN", new_charity_session_path, class: "btn btn-dark btn-lg pt-5 pb-5 pl-5 pr-5", type: "button" %>
+      </div>
     </div>
   </div>
 <% elsif charity_signed_in? && current_charity.stripe_account_id.blank? %> 
-  <%= link_to 'Connect with Stripe', account_create_path, method: :post, class: "btn btn-dark btn-lg btn-block mt-5" %>
-  <%= link_to "Sign out", destroy_charity_session_path, method: :delete %>
+  <div class="d-grid gap-2">
+    <%= link_to 'Connect with Stripe', account_create_path, method: :post, class: "btn btn-dark btn-lg mt-5" %>
+  </div>
+  <div class="d-grid gap-2">
+    <%= link_to "Sign out", destroy_charity_session_path, method: :delete, class: "btn btn-dark btn-lg mt-5"  %>
+  </div>
 <% elsif charity_signed_in? %>
-  <%= link_to 'View Stripe Account', account_login_path, method: :post, remote: true, class: "btn btn-dark btn-lg btn-block mt-5" %>
-  <%= link_to "Sign out", destroy_charity_session_path, method: :delete %>
+  <div class="d-grid gap-2">
+    <%= link_to 'View Stripe Account', account_login_path, method: :post, remote: true, class: "btn btn-dark btn-lg mt-5" %>
+  </div>
+  <div class="d-grid gap-2">
+    <%= link_to "Sign out", destroy_charity_session_path, method: :delete, class: "btn btn-dark btn-lg mt-5" %>
+  </div>
 <% else user_signed_in? %> 
   <% if current_user.stripe_customer_id.blank? %>
     <div class="row pt-5">
@@ -23,20 +37,29 @@
         <div class="card">
           <h4>* Please add your card info in order to pledge to events.</h4>
         </div>
-        <%= link_to 'Add card info', checkout_create_path, method: :post, params: {id: current_user.id}, remote: true, class: "btn btn-dark btn-lg btn-block mt-5" %>
+        <div class="d-grid gap-2">
+          <%= link_to 'Add card info', checkout_create_path, method: :post, params: {id: current_user.id}, remote: true, class: "btn btn-dark btn-lg mt-5" %>
+        </div>
       </div>
     </div>
   <% end %>
 
   <div class="row pt-5">
     <div class="col-sm-6 offset-sm-3">
-      <%= link_to "New Event", new_event_path, class: "btn btn-dark btn-lg btn-block" %>
+      <div class="d-grid gap-2">
+        <%= link_to "New Event", new_event_path, class: "btn btn-dark btn-lg" %>
+      </div>
     </div>
   </div>
 
   <div class="row pt-5 pb-5">
     <div class="col-sm-6 offset-sm-3 text-center">
-      <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: "btn btn-dark btn-lg btn-block" %>
+      <div class="d-grid gap-2 pb-5">
+        <%= link_to "Edit Profile", edit_user_registration_path(current_user), class: "btn btn-dark btn-lg" %>
+      </div>
+      <div class="d-grid gap-2">
+        <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: "btn btn-dark btn-lg" %>
+      </div>
     </div>
   </div>
 
@@ -45,25 +68,19 @@
     <div class="row pt-5">
       <div class="col-sm">
         <div class="card border border-dark">
-            <div class="card-header bg-secondary">
-              <h3><%= event.name %></h3>
-              <% if user_signed_in? && current_user.id == event.user.id %>
-                <h4>Event created by: You</h4>
-              <% else %>
-                <h4>Event created by: <%= event.user.username %></h4>
-              <% end %>
-              <h4>Type: <%= event.category %></h4>
-              <%= link_to 'View Event', event, class: "btn btn-dark btn-sm mt-3 mb-3" %>
-            </div>
+          <div class="card-header bg-secondary">
+            <h3><%= event.name %></h3>
+            <% if user_signed_in? && current_user.id == event.user.id %>
+              <h4>Event created by: You</h4>
+            <% else %>
+              <h4>Event created by: <%= link_to event.user.username, user_profile_path(id: event.user.id) %></h4>
+            <% end %>
+            <%= link_to 'View Event', event, class: "btn btn-dark btn-lg mt-3 mb-3" %>
+          </div>
           <div class="card-body bg-light">
             <h4><%= event.description %></h4> 
           </div>
-          <div class="text-center">
-            <% if user_signed_in? && current_user.stripe_customer_id.present? %>
-              <%= link_to  "Pledge", new_pledge_path(id: event.id), class: "btn btn-success btn-sm mt-3 mb-3" %>
-            <% end %>  
-          </div>                  
-        </div>
+        </div>     
       </div>
     </div>  
   <% end %>

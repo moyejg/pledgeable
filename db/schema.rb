@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_18_170524) do
+ActiveRecord::Schema.define(version: 2020_12_03_142917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(version: 2020_11_18_170524) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.integer "charity_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "charities", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -47,29 +57,39 @@ ActiveRecord::Schema.define(version: 2020_11_18_170524) do
     t.string "name"
     t.text "description"
     t.string "stripe_account_id"
+    t.string "ein"
+    t.boolean "charity_confirmed", default: false
     t.index ["email"], name: "index_charities_on_email", unique: true
     t.index ["reset_password_token"], name: "index_charities_on_reset_password_token", unique: true
+  end
+
+  create_table "event_categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "unit_of_measurement"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.string "category"
     t.decimal "amount"
     t.datetime "event_completed_on"
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "charity_id"
+    t.integer "event_category_id"
   end
 
   create_table "pledges", force: :cascade do |t|
-    t.decimal "amount"
-    t.decimal "max_amount"
     t.integer "user_id"
     t.integer "event_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "amount", precision: 10, scale: 2
+    t.decimal "max_amount", precision: 10, scale: 2
   end
 
   create_table "users", force: :cascade do |t|

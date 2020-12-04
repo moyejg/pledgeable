@@ -22,11 +22,11 @@
     </div>
 
       <div class="form-group pt-5 pb-5">
-        <%= form.text_field :amount, placeholder: "Pledge Amount", class: "form-control form-control-lg" %>
+        <%= form.number_field :amount, :step => 0.01, placeholder: "Pledge Amount", class: "form-control form-control-lg" %>
       </div>
 
       <div class="form-group pb-5">
-        <%= form.text_field :max_amount, placeholder: "Maximum Donation Amount", class: "form-control form-control-lg"%>
+        <%= form.number_field :max_amount, step: :any, placeholder: "Maximum Donation Amount(optional)", class: "form-control form-control-lg"%>
       </div>
 
       <%= form.hidden_field :event_id, value: @event.id %>

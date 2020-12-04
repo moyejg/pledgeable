@@ -1,0 +1,13 @@
+<div class="row pt-5 pb-5">
+  <div class="col-sm-8 offset-sm-2 pb-5">
+    <div class="card mb-3">
+      <%= image_tag @user.avatar.variant(resize_to_limit: [150, nil]), class: "img-thumbnail card-img-top" %>
+      <div class="card-body">
+        <h5 class="card-title"><%= @user.username %></h5>
+        <p class="card-text"><%= @user.email %></p>
+        <p class="card-text"></p>
+        <p class="card-text"></p>
+      </div>
+    </div>    
+  </div>
+</div>

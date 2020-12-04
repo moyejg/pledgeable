@@ -59,7 +59,7 @@ class PledgesController < ApplicationController
   def destroy
     @pledge.destroy
     respond_to do |format|
-      format.html { redirect_to root_path, notice: 'Pledge was successfully destroyed.' }
+      format.html { redirect_back fallback_location: root_path, notice: 'Pledge was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

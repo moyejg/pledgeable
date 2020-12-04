@@ -11,11 +11,6 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    pledge_amount_arr = []
-    @event.pledges.each do |pledge|
-      pledge_amount_arr.push(pledge.amount)
-    end
-    @total_pledge_amount = pledge_amount_arr.sum
   end
 
   # GET /events/new
@@ -27,6 +22,10 @@ class EventsController < ApplicationController
   def edit
   end
 
+  def mark_completed  
+    @event = Event.find_by(params[:event])
+  end
+
   # POST /events
   # POST /events.json
   def create
@@ -35,7 +34,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to root_path, notice: 'Event was successfully created.' }
+        format.html { redirect_to @event }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -77,6 +76,6 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:name, :description, :category, :amount, :event_completed_on, :user_id, :charity_id)
+      params.require(:event).permit(:name, :description, :amount, :event_completed_on, :user_id, :charity_id, :event_category_id)
     end
 end

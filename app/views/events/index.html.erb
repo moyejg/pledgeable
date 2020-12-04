@@ -7,7 +7,6 @@
       <div class="card-body">
         <h1><%= event.name %></h1>
         <p><%= event.description %></p>
-        <p><%= event.category %></p>
         <%= link_to 'Show', event %>
         <%= link_to 'Mark as completed', edit_event_path(event) %>
         <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %>
